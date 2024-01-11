@@ -2,9 +2,11 @@ import './Navbar.scss';
 
 import React, {
   useContext,
+  useRef,
   useState,
 } from 'react';
 
+import { IoIosArrowDropdown } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 
 import cart_icon from '../../Assets/cart_icon.png';
@@ -13,7 +15,12 @@ import { ShopContext } from '../../Context/ShopContext';
 
 const Navbar = () => {
   const [menu, setMenu] = useState("shop");
-  const {getTotalCartItems}=useContext(ShopContext)
+  const {getTotalCartItems}=useContext(ShopContext);
+  const menuRef=useRef();
+  const dropdown_toggle=(e)=>{
+    menuRef.current.classList.toggle('nav-menu-visible');
+    e.target.classList.toggle('open')
+  }
   return (
     <div className="navbar">
       <div className="nav-logo">
@@ -21,7 +28,9 @@ const Navbar = () => {
         <p>SHOPPER</p>
       </div>
 
-      <ul className="nav-menu">
+      
+       <IoIosArrowDropdown className='nav-dropdown' onClick={dropdown_toggle} />
+      <ul ref={menuRef} className="nav-menu">
         <li
           onClick={() => {
             setMenu("shop");
